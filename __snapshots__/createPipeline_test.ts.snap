@@ -1,7 +1,7 @@
 export const snapshot = {};
 
 snapshot[`createsYAMLPipelineAndGitHubDir 1`] = `
-\`name: build
+"name: build
 on:
   push:
     branches:
@@ -12,7 +12,6 @@ on:
 jobs:
   build:
     runs-on: \${{ matrix.os }}
-    continue-on-error: \${{ matrix.deno-version == "canary" }}
     strategy:
       matrix:
         os:
@@ -44,5 +43,5 @@ jobs:
       - run: deno test --coverage=cov/
       - if: matrix.os == 'ubuntu-22.04' && matrix.deno-version != 'canary'
         run: deno coverage --lcov --output=cov.lcov cov/
-\`
+"
 `;
