@@ -26,7 +26,9 @@ export function createPipeline(
     jobs: {
       build: {
         "runs-on": "${{ matrix.os }}",
-        "continue-on-error": '${{ matrix.deno-version == "canary" }}',
+        "continue-on-error": (options.canary)
+          ? '${{ matrix.deno-version == "canary" }}'
+          : undefined,
         strategy: {
           matrix,
         },
