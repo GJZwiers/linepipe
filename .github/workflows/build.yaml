@@ -31,7 +31,7 @@ jobs:
           deno-version: ${{ matrix.deno-version }}
       - run: deno fmt --check
       - run: deno lint
-      - run: deno check main.ts
+      - run: deno check linepipe.ts
       - name: Cache DENO_DIR
         uses: actions/cache@v3
         with:
