@@ -37,6 +37,6 @@ jobs:
         with:
           path: ${{ env.DENO_DIR }}
           key: ${{ hashFiles('deno.lock') }}
-      - run: deno test --coverage=cov/
+      - run: deno test --allow-write --allow-read --coverage=cov/
       - if: matrix.os == 'ubuntu-22.04' && matrix.deno-version != 'canary'
         run: deno coverage --lcov --output=cov.lcov cov/
