@@ -11,7 +11,7 @@ Deno.test(async function createsActionsPipeline(context) {
   const path = "build.yaml";
 
   const githubDir = ".github/workflows";
-  createPipeline(path, { canary: false }, test_dir);
+  createPipeline(path, { canary: false, verbose: false }, test_dir);
   const file = await Deno.readFile(`${test_dir}/${githubDir}/${path}`);
 
   await assertSnapshot(context, new TextDecoder().decode(file));
