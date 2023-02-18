@@ -91,14 +91,13 @@ export function createPipeline(
 
   const yaml = YAML.stringify(yamlObject);
   const githubFolder = dir ? `${dir}/.github/workflows` : ".github/workflows";
+  const writePath = `${githubFolder}/${path}`;
   const data = new TextEncoder().encode(yaml);
 
   try {
-    Deno.writeFileSync(`${githubFolder}/${path}`, data);
+    Deno.writeFileSync(writePath, data);
   } catch (e) {
-    let writePath = path;
     if (e instanceof Deno.errors.NotFound) {
-      writePath = `${githubFolder}/${path}`;
       Deno.mkdirSync(githubFolder, { recursive: true });
     } else if (e instanceof Deno.errors.PermissionDenied) {
       throw new Error(`Permission to ${githubFolder} was denied.`);
