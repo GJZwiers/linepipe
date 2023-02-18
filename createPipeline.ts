@@ -66,15 +66,15 @@ export function createPipeline(
             run: "deno lint",
           },
           {
-            run: "deno check main.ts",
-          },
-          {
             name: "Cache DENO_DIR",
             uses: "actions/cache@v3",
             with: {
               path: "${{ env.DENO_DIR }}",
               key: "${{ hashFiles('deno.lock') }}",
             },
+          },
+          {
+            run: "deno check main.ts",
           },
           {
             run: "deno test --coverage=cov/",
