@@ -1,6 +1,6 @@
 export const snapshot = {};
 
-snapshot[`createsYAMLPipelineAndGitHubDir 1`] = `
+snapshot[`createsActionsPipeline 1`] = `
 "name: build
 on:
   push:

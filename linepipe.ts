@@ -1,5 +1,5 @@
 import { Command } from "https://deno.land/x/cliffy@v0.25.7/command/mod.ts";
-import { createPipeline } from "./createPipeline.ts";
+import { createPipeline, validatePipelineName } from "./createPipeline.ts";
 
 await new Command()
   .name("linepipe")
@@ -13,13 +13,14 @@ await new Command()
     },
   )
   .option(
-    "--github-dir [githubDir:boolean]",
-    "Create .github/workflows directory",
+    "--name <name:string>",
+    "The name of the pipeline file",
     {
-      default: true,
+      default: "pipeline.yaml",
     },
   )
   .action((options) => {
-    createPipeline("build.yaml", options);
+    validatePipelineName(options.name);
+    createPipeline(options.name, options);
   })
   .parse();
