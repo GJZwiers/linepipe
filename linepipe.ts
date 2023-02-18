@@ -19,7 +19,17 @@ await new Command()
       default: "pipeline.yaml",
     },
   )
+  .option(
+    "-v, --verbose [verbose:boolean]",
+    "Enable verbose output",
+    {
+      default: false,
+    },
+  )
   .action((options) => {
+    if (options.verbose) {
+      console.log(options);
+    }
     validatePipelineName(options.name);
     createPipeline(options.name, options);
   })

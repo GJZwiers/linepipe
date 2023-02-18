@@ -10,7 +10,7 @@ export function validatePipelineName(name: string) {
 
 export function createPipeline(
   path: string,
-  options: { canary: boolean },
+  options: { canary: boolean; verbose: boolean },
   dir?: string,
 ) {
   const matrix = {
@@ -98,9 +98,12 @@ export function createPipeline(
     Deno.writeFileSync(writePath, data);
   } catch (e) {
     if (e instanceof Deno.errors.NotFound) {
+      if (options.verbose) {
+        console.debug("Adding .github/workflows");
+      }
       Deno.mkdirSync(githubFolder, { recursive: true });
     } else if (e instanceof Deno.errors.PermissionDenied) {
-      throw new Error(`Permission to ${githubFolder} was denied.`);
+      throw new Error(`Permission to ${githubFolder} was denied: ${e}`);
     }
     Deno.writeFileSync(writePath, data);
   }
