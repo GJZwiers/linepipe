@@ -31,12 +31,12 @@ jobs:
           deno-version: ${{ matrix.deno-version }}
       - run: deno fmt --check
       - run: deno lint
-      - run: deno check linepipe.ts
       - name: Cache DENO_DIR
         uses: actions/cache@v3
         with:
           path: ${{ env.DENO_DIR }}
           key: ${{ hashFiles('deno.lock') }}
+      - run: deno check linepipe.ts
       - run: deno test --allow-write --allow-read --coverage=cov/
       - if: matrix.os == 'ubuntu-22.04' && matrix.deno-version != 'canary'
         run: deno coverage --lcov --output=cov.lcov cov/
