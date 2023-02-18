@@ -1,8 +1,16 @@
 import YAML from "npm:yaml";
 
+export function validatePipelineName(name: string) {
+  if (!/\.ya?ml$/.test(name)) {
+    throw new Error(
+      `Invalid name: ${name}. Pipeline must end with .yaml or .yml file extension`,
+    );
+  }
+}
+
 export function createPipeline(
   path: string,
-  options: { canary: boolean; githubDir: boolean },
+  options: { canary: boolean },
   dir?: string,
 ) {
   const matrix = {
@@ -90,16 +98,10 @@ export function createPipeline(
   } catch (e) {
     let writePath = path;
     if (e instanceof Deno.errors.NotFound) {
-      if (options.githubDir) {
-        writePath = `${githubFolder}/${path}`;
-        Deno.mkdirSync(githubFolder, { recursive: true });
-      } else {
-        throw new Error(
-          ".github/workflows was not found. Run with --github-dir to create one.",
-        );
-      }
+      writePath = `${githubFolder}/${path}`;
+      Deno.mkdirSync(githubFolder, { recursive: true });
     } else if (e instanceof Deno.errors.PermissionDenied) {
-      console.error(`Permission to ${githubFolder} was denied.`);
+      throw new Error(`Permission to ${githubFolder} was denied.`);
     }
     Deno.writeFileSync(writePath, data);
   }
